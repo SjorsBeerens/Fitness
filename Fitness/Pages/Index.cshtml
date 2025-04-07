@@ -2,14 +2,14 @@
 @model Fitness.Pages.IndexModel
 @{
     ViewData["Title"] = "index - Fitness";
-	Layout = null;
+	Layout = "startup_layout";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Platform</title>
+    <title>Fitness</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -33,7 +33,7 @@
                 <a href="#" class="text-gray-800 hover:text-gray-600">Personal Trainer</a>
                 <a href="#" class="text-gray-800 hover:text-gray-600">Calories</a>
                 <a href="#" class="text-gray-800 hover:text-gray-600">Training Schedule</a>
-                <a href="#" class="text-gray-800 hover:text-gray-600">About Us</a>
+                <a href="/about-us" class="text-gray-800 hover:text-gray-600">About Us</a>
             </nav>
 
             <div class="flex items-center space-x-4">
