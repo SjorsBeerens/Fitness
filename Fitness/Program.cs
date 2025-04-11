@@ -1,4 +1,4 @@
-using Fitness.Services; // Add this
+using Fitness.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
