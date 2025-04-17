@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Fitness</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Fitness.styles.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Navigation -->
+    <header class="border-b">
+        <div class="mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10">
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <path d="M50,10 C60,10 70,15 75,25 C80,15 90,10 95,20 C100,30 90,40 85,45 C90,50 95,60 90,70 C85,80 75,75 70,70 C65,80 55,90 50,90 C45,90 35,80 30,70 C25,75 15,80 10,70 C5,60 10,50 15,45 C10,40 0,30 5,20 C10,10 20,15 25,25 C30,15 40,10 50,10 Z"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2" />
+                    </svg>
+                </div>
+                <span class="font-bold text-xl">Fitness</span>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="text-gray-800 hover:text-gray-600">Home</a>
+                <a href="#" class="text-gray-800 hover:text-gray-600">Personal Trainer</a>
+                <a href="#" class="text-gray-800 hover:text-gray-600">Calories</a>
+                <a href="#" class="text-gray-800 hover:text-gray-600">Training Schedule</a>
+                <a href="/about-us" class="text-gray-800 hover:text-gray-600">About Us</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <a href="login.html" class="text-gray-800 hover:text-gray-600">Log In</a>
+                <a href="#" class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="">
+        @RenderBody()
+    </main>
+</body>
+</html>
