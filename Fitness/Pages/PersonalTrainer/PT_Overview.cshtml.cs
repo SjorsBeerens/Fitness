@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Fitness.Services;
+using Fitness.Models;
 
 namespace Fitness.Pages.PersonalTrainer
 {
