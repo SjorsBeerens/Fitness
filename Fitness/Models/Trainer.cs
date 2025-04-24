@@ -1,12 +1,9 @@
-﻿namespace Fitness.Models
+﻿public class Trainer
 {
-    public class Trainer
-    {
-        public required string Name { get; set; }
-        public required string Specialty { get; set; }
-        public required string Experience { get; set; }
-        public required string PriceRange { get; set; }
-        public double Rating { get; set; }
-        public required string Availability { get; set; }
-    }
+    public int TrainerID { get; set; }
+    public required string Name { get; set; }
+    public required string Specialty { get; set; }
+    public required string Experience { get; set; }
+    public required string Price { get; set; }
+    public double Rating { get; set; }
 }
