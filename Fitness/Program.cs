@@ -1,10 +1,13 @@
-using Fitness.Services;
+using Fitness.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<TrainerService>();
+
+// Voeg TrainerRepository toe aan de DI-container
+builder.Services.AddScoped<TrainerRepository>(provider =>
+    new TrainerRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

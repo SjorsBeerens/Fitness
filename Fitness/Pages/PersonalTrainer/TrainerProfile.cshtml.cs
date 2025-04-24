@@ -1,23 +1,23 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Fitness.Services;
-using Fitness.Models;
+using Fitness.Repositories;
 
 namespace Fitness.Pages.PersonalTrainer
 {
     public class TrainerProfileModel : PageModel
     {
-        private readonly TrainerService _trainerService;
+        private readonly TrainerRepository _trainerRepository;
 
-        public TrainerProfileModel(TrainerService trainerService)
+        public TrainerProfileModel(TrainerRepository trainerRepository)
         {
-            _trainerService = trainerService;
+            _trainerRepository = trainerRepository;
         }
 
         public Trainer? Trainer { get; private set; }
 
-        public void OnGet(string name)
+        public async Task OnGetAsync(string name)
         {
-            Trainer = _trainerService.GetAllTrainers().FirstOrDefault(t => t.Name == name);
+            var trainers = await _trainerRepository.GetTrainersAsync();
+            Trainer = trainers.FirstOrDefault(t => t.Name == name);
         }
     }
 }
