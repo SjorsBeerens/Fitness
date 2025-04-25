@@ -1,3 +1,5 @@
+using Fitness.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Voeg sessieondersteuning toe
@@ -11,6 +13,14 @@ builder.Services.AddSession(options =>
 
 // Voeg Razor Pages ondersteuning toe
 builder.Services.AddRazorPages();
+
+// Registreer TrainerRepository met een connection string
+builder.Services.AddScoped<TrainerRepository>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    return new TrainerRepository(connectionString);
+});
 
 var app = builder.Build();
 
