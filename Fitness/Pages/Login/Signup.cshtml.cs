@@ -38,30 +38,40 @@ namespace Fitness.Pages.Login
                 return Page();
             }
 
-            // Voeg de gebruiker toe aan de database
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
-            int userId;
 
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                var query = @"
-                    INSERT INTO [User] (Name, Email, Password)
-                    OUTPUT INSERTED.UserID
-                    VALUES (@Name, @Email, @Password)";
-                using (var command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Name", FullName);
-                    command.Parameters.AddWithValue("@Email", Email);
-                    command.Parameters.AddWithValue("@Password", Password); // Overweeg hashing
 
-                    // Haal de gegenereerde UserID op
-                    userId = (int)command.ExecuteScalar();
+                var checkEmailQuery = "SELECT COUNT(1) FROM [User] WHERE Email = @Email";
+                using (var checkCommand = new SqlCommand(checkEmailQuery, connection))
+                {
+                    checkCommand.Parameters.AddWithValue("@Email", Email);
+                    var emailExists = (int)checkCommand.ExecuteScalar() > 0;
+
+                    if (emailExists)
+                    {
+                        ModelState.AddModelError("Email", "This email address is already in use.");
+                        return Page();
+                    }
+                }
+
+                var insertQuery = @"
+            INSERT INTO [User] (Name, Email, Password)
+            OUTPUT INSERTED.UserID
+            VALUES (@Name, @Email, @Password)";
+                using (var insertCommand = new SqlCommand(insertQuery, connection))
+                {
+                    insertCommand.Parameters.AddWithValue("@Name", FullName);
+                    insertCommand.Parameters.AddWithValue("@Email", Email);
+                    insertCommand.Parameters.AddWithValue("@Password", Password);
+
+                    var userId = (int)insertCommand.ExecuteScalar();
+
+                    TempData["UserID"] = userId;
                 }
             }
-
-            // Sla de UserID op in TempData
-            TempData["UserID"] = userId;
 
             return RedirectToPage("AdditionalInfo");
         }
