@@ -17,7 +17,7 @@ namespace Fitness.Pages.Login
         public decimal Weight { get; set; }
 
         [BindProperty]
-        public float Height { get; set; }
+        public int Height { get; set; }
 
         [BindProperty]
         public int Age { get; set; }
@@ -26,7 +26,7 @@ namespace Fitness.Pages.Login
         public string Gender { get; set; }
 
         [BindProperty]
-        public float ActivityLevel { get; set; }
+        public decimal ActivityLevel { get; set; }
 
         public IActionResult OnPost()
         {
