@@ -19,7 +19,6 @@ namespace Fitness.Pages.Login
             // Controleer of de sessie al bestaat
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserEmail")))
             {
-                // Als de sessie bestaat, redirect naar dashboard
                 return RedirectToPage("/Dashboard");
             }
 
@@ -29,17 +28,13 @@ namespace Fitness.Pages.Login
         [ValidateAntiForgeryToken] // Valideer anti-forgery token
         public IActionResult OnPost()
         {
-            // Dummy authenticatie (vervang dit met je eigen logica)
+
             if (Email == "email@email.com" && Password == "password")
             {
-                // Sla gebruikersinformatie op in de sessie
                 HttpContext.Session.SetString("UserEmail", Email);
-
-                // Redirect naar een beveiligde pagina
                 return RedirectToPage("/Dashboard");
             }
 
-            // Toon foutmelding als authenticatie mislukt
             ErrorMessage = "Invalid email or password.";
             return Page();
         }
