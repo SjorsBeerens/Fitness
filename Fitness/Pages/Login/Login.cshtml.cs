@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
+using Microsoft.AspNetCore.Http;
+using System.Data.SqlClient;
 
 namespace Fitness.Pages.Login
 {
@@ -14,29 +15,47 @@ namespace Fitness.Pages.Login
 
         public string ErrorMessage { get; set; }
 
-        public IActionResult OnGet()
-        {
-            // Controleer of de sessie al bestaat
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserEmail")))
-            {
-                return RedirectToPage("/Dashboard");
-            }
+        private readonly IConfiguration _configuration;
 
-            return Page();
+        public LoginModel(IConfiguration configuration)
+        {
+            _configuration = configuration;
         }
 
-        [ValidateAntiForgeryToken] // Valideer anti-forgery token
         public IActionResult OnPost()
         {
-
-            if (Email == "email@email.com" && Password == "password")
+            if (!ModelState.IsValid)
             {
-                HttpContext.Session.SetString("UserEmail", Email);
-                return RedirectToPage("/Dashboard");
+                return Page();
             }
 
-            ErrorMessage = "Invalid email or password.";
-            return Page();
+            // Controleer de inloggegevens
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                var query = "SELECT UserID FROM [User] WHERE Email = @Email AND Password = @Password";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", Email);
+                    command.Parameters.AddWithValue("@Password", Password); // Overweeg hashing
+
+                    var userId = command.ExecuteScalar();
+                    if (userId != null)
+                    {
+                        // Maak een sessie aan
+                        HttpContext.Session.SetString("UserEmail", Email);
+                        HttpContext.Session.SetInt32("UserID", (int)userId);
+
+                        return RedirectToPage("/Dashboard");
+                    }
+                    else
+                    {
+                        ErrorMessage = "Invalid email or password.";
+                        return Page();
+                    }
+                }
+            }
         }
     }
 }
