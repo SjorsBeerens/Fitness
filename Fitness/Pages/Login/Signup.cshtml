@@ -27,7 +27,8 @@
             <p class="text-gray-600 mt-2">Start your fitness journey today</p>
         </div>
 
-        <form method="get" action="/additional-info">
+        <form method="post">
+            @Html.AntiForgeryToken()
             <div class="mb-6">
                 <label for="full-name" class="block text-gray-700 mb-2">Full Name</label>
                 <input id="full-name"
@@ -65,6 +66,12 @@
                            type="password"
                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
                            placeholder="Confirm your password" required />
+                    @if (ViewData.ModelState["ConfirmPassword"]?.Errors.Count > 0)
+                    {
+                        <p class="text-red-500 text-sm mt-2">
+                            @ViewData.ModelState["ConfirmPassword"].Errors[0].ErrorMessage
+                        </p>
+                    }
                 </div>
             </div>
 
