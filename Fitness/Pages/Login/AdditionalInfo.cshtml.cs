@@ -9,10 +9,16 @@ namespace Fitness.Pages.Login
         public float Weight { get; set; }
 
         [BindProperty]
+        public float Height { get; set; }
+
+        [BindProperty]
         public int Age { get; set; }
 
         [BindProperty]
         public string Gender { get; set; }
+
+        [BindProperty]
+        public float ActivityLevel { get; set; }
 
         public IActionResult OnPost()
         {
@@ -20,7 +26,6 @@ namespace Fitness.Pages.Login
             {
                 return Page();
             }
-
             return RedirectToPage("/Dashboard");
         }
     }
