@@ -20,6 +20,7 @@
         </div>
 
         <form method="post">
+            @Html.AntiForgeryToken()
             <div class="mb-6">
                 <label for="weight" class="block text-gray-700 mb-2">Weight (kg)</label>
                 <input id="weight"

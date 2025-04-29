@@ -30,26 +30,23 @@ namespace Fitness.Pages.Login
 
         public IActionResult OnPost()
         {
-            // Haal de UserID op uit TempData
             if (!TempData.ContainsKey("UserID") || !int.TryParse(TempData["UserID"]?.ToString(), out var userId))
             {
-                // Als TempData leeg is, redirect naar Signup
                 return RedirectToPage("Signup");
             }
 
-            // Werk de aanvullende informatie bij in de database
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 var query = @"
-                    UPDATE [User]
-                    SET Weight = @Weight,
-                        Height = @Height,
-                        Age = @Age,
-                        Gender = @Gender,
-                        ActivityLevel = @ActivityLevel
-                    WHERE UserID = @UserID";
+            UPDATE [User]
+            SET Weight = @Weight,
+                Height = @Height,
+                Age = @Age,
+                Gender = @Gender,
+                ActivityLevel = @ActivityLevel
+            WHERE UserID = @UserID";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Weight", Weight);
@@ -63,8 +60,8 @@ namespace Fitness.Pages.Login
                 }
             }
 
-            // Redirect naar de Login-pagina
-            return RedirectToPage("Login");
+            // Gebruik RedirectToPage om naar de loginpagina te gaan
+            return RedirectToPage("/Login/Login");
         }
     }
 }
