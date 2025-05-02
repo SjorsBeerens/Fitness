@@ -2,28 +2,34 @@ using Fitness.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Voeg sessieondersteuning toe
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Stel de sessietijd in
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Voeg Razor Pages ondersteuning toe
 builder.Services.AddRazorPages();
 
-// Voeg TrainerRepository toe aan de DI-container
+// Registreer TrainerRepository met een connection string
 builder.Services.AddScoped<TrainerRepository>(provider =>
-    new TrainerRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    return new TrainerRepository(connectionString);
+});
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession(); // Voeg sessie-middleware toe
 app.UseAuthorization();
 
 app.MapRazorPages();
