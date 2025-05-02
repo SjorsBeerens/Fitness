@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Identity;
 
 namespace Fitness.Pages.Login
 {
@@ -29,33 +30,42 @@ namespace Fitness.Pages.Login
                 return Page();
             }
 
-            // Controleer de inloggegevens
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                var query = "SELECT UserID FROM [User] WHERE Email = @Email AND Password = @Password";
+                var query = "SELECT UserID, Password FROM [User] WHERE Email = @Email";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Email", Email);
-                    command.Parameters.AddWithValue("@Password", Password); // Overweeg hashing
 
-                    var userId = command.ExecuteScalar();
-                    if (userId != null)
+                    using (var reader = command.ExecuteReader())
                     {
-                        // Maak een sessie aan
-                        HttpContext.Session.SetString("UserEmail", Email);
-                        HttpContext.Session.SetInt32("UserID", (int)userId);
+                        if (reader.Read())
+                        {
+                            var userId = reader["UserID"];
+                            var hashedPassword = reader["Password"].ToString();
 
-                        return RedirectToPage("/Dashboard");
-                    }
-                    else
-                    {
-                        ErrorMessage = "Invalid email or password.";
-                        return Page();
+                            // Vergelijk het ingevoerde wachtwoord met het gehashte wachtwoord
+                            var passwordHasher = new PasswordHasher<object>();
+                            var result = passwordHasher.VerifyHashedPassword(null, hashedPassword, Password);
+
+                            if (result == PasswordVerificationResult.Success)
+                            {
+                                // Maak een sessie aan
+                                HttpContext.Session.SetString("UserEmail", Email);
+                                HttpContext.Session.SetInt32("UserID", (int)userId);
+
+                                return RedirectToPage("/Dashboard");
+                            }
+                        }
                     }
                 }
             }
+
+            ErrorMessage = "Invalid email or password.";
+            return Page();
         }
+
     }
 }

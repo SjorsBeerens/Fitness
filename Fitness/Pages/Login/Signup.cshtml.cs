@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Identity;
 
 namespace Fitness.Pages.Login
 {
@@ -57,15 +58,19 @@ namespace Fitness.Pages.Login
                     }
                 }
 
+                // Hash het wachtwoord
+                var passwordHasher = new PasswordHasher<object>();
+                var hashedPassword = passwordHasher.HashPassword(null, Password);
+
                 var insertQuery = @"
-            INSERT INTO [User] (Name, Email, Password)
-            OUTPUT INSERTED.UserID
-            VALUES (@Name, @Email, @Password)";
+                INSERT INTO [User] (Name, Email, Password)
+                OUTPUT INSERTED.UserID
+                VALUES (@Name, @Email, @Password)";
                 using (var insertCommand = new SqlCommand(insertQuery, connection))
                 {
                     insertCommand.Parameters.AddWithValue("@Name", FullName);
                     insertCommand.Parameters.AddWithValue("@Email", Email);
-                    insertCommand.Parameters.AddWithValue("@Password", Password);
+                    insertCommand.Parameters.AddWithValue("@Password", hashedPassword);
 
                     var userId = (int)insertCommand.ExecuteScalar();
 
