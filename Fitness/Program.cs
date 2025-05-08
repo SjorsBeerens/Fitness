@@ -1,4 +1,5 @@
-using Fitness.Repositories;
+using FitnessCore.Repositories;
+using FitnessCore.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,9 @@ builder.Services.AddScoped<TrainerRepository>(provider =>
     var connectionString = configuration.GetConnectionString("DefaultConnection");
     return new TrainerRepository(connectionString);
 });
+
+// Registreer TrainerService
+builder.Services.AddScoped<TrainerService>();
 
 var app = builder.Build();
 

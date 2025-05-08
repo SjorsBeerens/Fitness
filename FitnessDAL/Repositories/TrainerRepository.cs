@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
+using FitnessDAL.DTOs;
 
-namespace Fitness.Repositories
+namespace FitnessCore.Repositories
 {
     public class TrainerRepository
     {
@@ -11,9 +12,9 @@ namespace Fitness.Repositories
             _connectionString = connectionString;
         }
 
-        public async Task<List<Trainer>> GetTrainersAsync()
+        public async Task<List<TrainerDTO>> GetTrainersAsync()
         {
-            var trainers = new List<Trainer>();
+            var trainers = new List<TrainerDTO>();
 
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -26,7 +27,7 @@ namespace Fitness.Repositories
                     {
                         while (await reader.ReadAsync())
                         {
-                            trainers.Add(new Trainer
+                            trainers.Add(new TrainerDTO
                             {
                                 TrainerID = Convert.ToInt32(reader["TrainerID"]),
                                 Name = reader["Name"].ToString()!,
