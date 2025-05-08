@@ -1,4 +1,4 @@
-﻿namespace Fitness.Models
+﻿namespace FitnessCore.Models
 {
     public class MealLog
     {
