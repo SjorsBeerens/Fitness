@@ -1,7 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using FitnessCore.Models;
 using FitnessCore.Service;
-using FitnessDAL.DTOs;
 using FitnessCore.Repositories;
 
 namespace Fitness.Pages.PersonalTrainer
@@ -19,16 +19,18 @@ namespace Fitness.Pages.PersonalTrainer
 
         public Trainer? Trainer { get; private set; }
 
-        public async Task OnGetAsync(string name)
+        public async Task<IActionResult> OnGetAsync(string name)
         {
-            // Haal de lijst van TrainerDTO's op
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserEmail")))
+            {
+                return RedirectToPage("/Login/login");
+            }
+
             var trainerDTOs = await _trainerRepository.GetTrainersAsync();
-
-            // Map de DTO's naar de Trainer-modellen
             var trainers = _trainerService.MapToTrainers(trainerDTOs);
-
-            // Zoek de juiste trainer
             Trainer = trainers.FirstOrDefault(t => t.Name == name);
+
+            return Page();
         }
     }
 }

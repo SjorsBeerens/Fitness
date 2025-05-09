@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using FitnessCore.Repositories;
 using FitnessCore.Models;
@@ -18,11 +19,17 @@ namespace Fitness.Pages.PersonalTrainer
 
         public List<Trainer> Trainers { get; private set; } = new();
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            var trainerDTOs = await _trainerRepository.GetTrainersAsync();
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserEmail")))
+            {
+                return RedirectToPage("/Login/login");
+            }
 
+            var trainerDTOs = await _trainerRepository.GetTrainersAsync();
             Trainers = _trainerService.MapToTrainers(trainerDTOs);
+
+            return Page();
         }
     }
 }

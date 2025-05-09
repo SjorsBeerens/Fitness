@@ -5,8 +5,13 @@ namespace Fitness.Pages.PersonalTrainer
 {
     public class Scheduled_SessionModel : PageModel
     {
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserEmail")))
+            {
+                return RedirectToPage("/Login/login");
+            }
+            return Page();
         }
     }
 }
