@@ -1,17 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
-using FitnessDAL.Repositories;
+using FitnessCore.Services;
 
 namespace Fitness.Pages.Login
 {
     public class SignupModel : PageModel
     {
-        private readonly UserRepository _userRepository;
+        private readonly UserService _userService;
 
-        public SignupModel(IConfiguration configuration)
+        public SignupModel(UserService userService)
         {
-            _userRepository = new UserRepository(configuration.GetConnectionString("DefaultConnection"));
+            _userService = userService;
         }
 
         [BindProperty]
@@ -39,16 +38,13 @@ namespace Fitness.Pages.Login
                 return Page();
             }
 
-            if (_userRepository.IsEmailInUse(Email))
+            if (_userService.IsEmailInUse(Email))
             {
                 ModelState.AddModelError("Email", "This email address is already in use.");
                 return Page();
             }
 
-            var passwordHasher = new PasswordHasher<object>();
-            var hashedPassword = passwordHasher.HashPassword(null, Password);
-
-            var userId = _userRepository.CreateUser(FullName, Email, hashedPassword);
+            var userId = _userService.CreateUser(FullName, Email, Password);
             TempData["UserID"] = userId;
 
             return RedirectToPage("AdditionalInfo");

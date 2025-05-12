@@ -30,7 +30,6 @@ namespace FitnessDAL.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-
                 var query = @"
                 INSERT INTO [User] (Name, Email, Password)
                 OUTPUT INSERTED.UserID

@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using FitnessDAL.Repositories;
+using FitnessCore.Services;
 
 namespace Fitness.Pages.Login
 {
@@ -16,11 +15,11 @@ namespace Fitness.Pages.Login
 
         public string ErrorMessage { get; set; }
 
-        private readonly UserRepository _userRepository;
+        private readonly UserService _userService;
 
-        public LoginModel(IConfiguration configuration)
+        public LoginModel(UserService userService)
         {
-            _userRepository = new UserRepository(configuration.GetConnectionString("DefaultConnection"));
+            _userService = userService;
         }
 
         public IActionResult OnPost()
@@ -30,19 +29,13 @@ namespace Fitness.Pages.Login
                 return Page();
             }
 
-            var (userId, hashedPassword) = _userRepository.GetUserByEmail(Email);
-            if (userId.HasValue)
+            var (isValid, userId) = _userService.ValidateUser(Email, Password);
+            if (isValid && userId.HasValue)
             {
-                var passwordHasher = new PasswordHasher<object>();
-                var result = passwordHasher.VerifyHashedPassword(null, hashedPassword, Password);
+                HttpContext.Session.SetString("UserEmail", Email);
+                HttpContext.Session.SetInt32("UserID", userId.Value);
 
-                if (result == PasswordVerificationResult.Success)
-                {
-                    HttpContext.Session.SetString("UserEmail", Email);
-                    HttpContext.Session.SetInt32("UserID", userId.Value);
-
-                    return RedirectToPage("/Dashboard");
-                }
+                return RedirectToPage("/Dashboard");
             }
 
             ErrorMessage = "Invalid email or password.";
