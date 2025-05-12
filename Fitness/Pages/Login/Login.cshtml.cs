@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
-using System.Data.SqlClient;
 using Microsoft.AspNetCore.Identity;
+using FitnessDAL.Repositories;
 
 namespace Fitness.Pages.Login
 {
@@ -16,11 +16,11 @@ namespace Fitness.Pages.Login
 
         public string ErrorMessage { get; set; }
 
-        private readonly IConfiguration _configuration;
+        private readonly UserRepository _userRepository;
 
         public LoginModel(IConfiguration configuration)
         {
-            _configuration = configuration;
+            _userRepository = new UserRepository(configuration.GetConnectionString("DefaultConnection"));
         }
 
         public IActionResult OnPost()
@@ -30,42 +30,23 @@ namespace Fitness.Pages.Login
                 return Page();
             }
 
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using (var connection = new SqlConnection(connectionString))
+            var (userId, hashedPassword) = _userRepository.GetUserByEmail(Email);
+            if (userId.HasValue)
             {
-                connection.Open();
-                var query = "SELECT UserID, Password FROM [User] WHERE Email = @Email";
-                using (var command = new SqlCommand(query, connection))
+                var passwordHasher = new PasswordHasher<object>();
+                var result = passwordHasher.VerifyHashedPassword(null, hashedPassword, Password);
+
+                if (result == PasswordVerificationResult.Success)
                 {
-                    command.Parameters.AddWithValue("@Email", Email);
+                    HttpContext.Session.SetString("UserEmail", Email);
+                    HttpContext.Session.SetInt32("UserID", userId.Value);
 
-                    using (var reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            var userId = reader["UserID"];
-                            var hashedPassword = reader["Password"].ToString();
-
-                            // Vergelijk het ingevoerde wachtwoord met het gehashte wachtwoord
-                            var passwordHasher = new PasswordHasher<object>();
-                            var result = passwordHasher.VerifyHashedPassword(null, hashedPassword, Password);
-
-                            if (result == PasswordVerificationResult.Success)
-                            {
-                                // Maak een sessie aan
-                                HttpContext.Session.SetString("UserEmail", Email);
-                                HttpContext.Session.SetInt32("UserID", (int)userId);
-
-                                return RedirectToPage("/Dashboard");
-                            }
-                        }
-                    }
+                    return RedirectToPage("/Dashboard");
                 }
             }
 
             ErrorMessage = "Invalid email or password.";
             return Page();
         }
-
     }
 }
