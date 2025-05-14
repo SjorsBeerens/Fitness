@@ -8,5 +8,12 @@
 
         public string PlanName { get; set; }
         public string PlanDescription { get; set; }
+
+        public List<Exercise_WOPlan> Exercises { get; set; }
+
+        public WorkoutPlan()
+        {
+            Exercises = new List<Exercise_WOPlan>();
+        }
     }
 }

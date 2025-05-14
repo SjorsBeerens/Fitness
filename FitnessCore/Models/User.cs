@@ -11,5 +11,15 @@
         public string gender { get; set; }
         public double activityLevel { get; set; }
         public int height { get; set; }
+        public List<MealLog> MealLogs { get; set; }
+        public List<ProgressReport> ProgressReports { get; set; }
+        public List<User_PT> UserPersonalTrainers { get; set; }
+
+        public User()
+        {
+            MealLogs = new List<MealLog>();
+            ProgressReports = new List<ProgressReport>();
+            UserPersonalTrainers = new List<User_PT>();
+        }
     }
 }

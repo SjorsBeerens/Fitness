@@ -9,5 +9,11 @@
         public int carbohydrates { get; set; }
         public int fat { get; set; }
 
+        public List<MealLog> MealLogs { get; set; }
+
+        public Meal()
+        {
+            MealLogs = new List<MealLog>();
+        }
     }
 }
