@@ -2,7 +2,7 @@ using FitnessDAL.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 
-namespace FitnessCore.Services
+namespace FitnessCore
 {
     public class UserService
     {

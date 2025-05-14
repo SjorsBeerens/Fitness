@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using FitnessCore.Services;
+using FitnessCore;
 
 namespace Fitness.Pages.Login
 {

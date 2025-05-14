@@ -1,6 +1,7 @@
-﻿using FitnessCore.Models;
+using FitnessCore.Models;
 using FitnessDAL.DTOs;
-namespace FitnessCore.Service
+
+namespace FitnessCore.Services
 {
     public class TrainerService
     {
@@ -15,6 +16,11 @@ namespace FitnessCore.Service
                 Price = dto.Price,
                 Rating = dto.Rating
             }).ToList();
+        }
+
+        public int GetRoundedRating(double rating)
+        {
+            return (int)Math.Floor(rating);
         }
     }
 }

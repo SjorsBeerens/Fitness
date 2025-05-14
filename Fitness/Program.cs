@@ -1,7 +1,8 @@
 using FitnessDAL.Repositories;
 using FitnessCore.Services;
 using FitnessCore.Repositories;
-using FitnessCore.Service;
+using FitnessCore.Services;
+using FitnessCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
