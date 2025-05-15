@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using FitnessCore.Repositories;
 using FitnessCore.Models;
-using FitnessCore.Service;
+using FitnessCore.Services;
 
 namespace Fitness.Pages.PersonalTrainer
 {

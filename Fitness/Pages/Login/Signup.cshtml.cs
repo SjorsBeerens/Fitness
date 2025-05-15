@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Data.SqlClient;
-using Microsoft.AspNetCore.Identity;
+using FitnessCore.Services;
+using FitnessCore;
 
 namespace Fitness.Pages.Login
 {
     public class SignupModel : PageModel
     {
-        private readonly IConfiguration _configuration;
+        private readonly UserService _userService;
 
-        public SignupModel(IConfiguration configuration)
+        public SignupModel(UserService userService)
         {
-            _configuration = configuration;
+            _userService = userService;
         }
 
         [BindProperty]
@@ -39,44 +39,14 @@ namespace Fitness.Pages.Login
                 return Page();
             }
 
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
-
-            using (var connection = new SqlConnection(connectionString))
+            if (_userService.IsEmailInUse(Email))
             {
-                connection.Open();
-
-                var checkEmailQuery = "SELECT COUNT(1) FROM [User] WHERE Email = @Email";
-                using (var checkCommand = new SqlCommand(checkEmailQuery, connection))
-                {
-                    checkCommand.Parameters.AddWithValue("@Email", Email);
-                    var emailExists = (int)checkCommand.ExecuteScalar() > 0;
-
-                    if (emailExists)
-                    {
-                        ModelState.AddModelError("Email", "This email address is already in use.");
-                        return Page();
-                    }
-                }
-
-                // Hash het wachtwoord
-                var passwordHasher = new PasswordHasher<object>();
-                var hashedPassword = passwordHasher.HashPassword(null, Password);
-
-                var insertQuery = @"
-                INSERT INTO [User] (Name, Email, Password)
-                OUTPUT INSERTED.UserID
-                VALUES (@Name, @Email, @Password)";
-                using (var insertCommand = new SqlCommand(insertQuery, connection))
-                {
-                    insertCommand.Parameters.AddWithValue("@Name", FullName);
-                    insertCommand.Parameters.AddWithValue("@Email", Email);
-                    insertCommand.Parameters.AddWithValue("@Password", hashedPassword);
-
-                    var userId = (int)insertCommand.ExecuteScalar();
-
-                    TempData["UserID"] = userId;
-                }
+                ModelState.AddModelError("Email", "This email address is already in use.");
+                return Page();
             }
+
+            var userId = _userService.CreateUser(FullName, Email, Password);
+            TempData["UserID"] = userId;
 
             return RedirectToPage("AdditionalInfo");
         }

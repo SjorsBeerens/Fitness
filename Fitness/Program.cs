@@ -1,5 +1,8 @@
+using FitnessDAL.Repositories;
+using FitnessCore.Services;
 using FitnessCore.Repositories;
-using FitnessCore.Service;
+using FitnessCore.Services;
+using FitnessCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,17 @@ builder.Services.AddSession(options =>
 
 // Voeg Razor Pages ondersteuning toe
 builder.Services.AddRazorPages();
+
+// Registreer UserRepository met een connection string
+builder.Services.AddScoped<UserRepository>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    return new UserRepository(connectionString);
+});
+
+// Registreer UserService
+builder.Services.AddScoped<UserService>();
 
 // Registreer TrainerRepository met een connection string
 builder.Services.AddScoped<TrainerRepository>(provider =>

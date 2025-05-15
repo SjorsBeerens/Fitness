@@ -7,6 +7,11 @@
         public int sets { get; set; }
         public int reps { get; set; }
         public decimal weight { get; set; }
+        public List<Exercise_WOPlan> WorkoutPlans { get; set; }
 
+        public Exercise()
+        {
+            WorkoutPlans = new List<Exercise_WOPlan>();
+        }
     }
 }
