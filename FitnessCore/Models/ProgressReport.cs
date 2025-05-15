@@ -4,9 +4,10 @@ namespace FitnessCore.Models
     {
         public int ProgressReportID { get; set; }
         public int UserID { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; } // Mark as nullable
 
-        public string WeightProgress { get; set; }
-        public string BMIProgress { get; set; }
+        public double WeightProgress { get; set; }
+        public double BMIProgress { get; set; }
+        public DateTime Date { get; set; } // Add Date property
     }
 }
