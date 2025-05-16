@@ -1,19 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using FitnessCore.Models;
-using FitnessCore.Services;
-using FitnessCore.Repositories;
+using FitnessCore.Interfaces;
 
 namespace Fitness.Pages.PersonalTrainer
 {
     public class TrainerProfileModel : PageModel
     {
-        private readonly TrainerRepository _trainerRepository;
-        private readonly TrainerService _trainerService;
+        private readonly ITrainerService _trainerService;
 
-        public TrainerProfileModel(TrainerRepository trainerRepository, TrainerService trainerService)
+        public TrainerProfileModel(ITrainerService trainerService)
         {
-            _trainerRepository = trainerRepository;
             _trainerService = trainerService;
         }
 
@@ -26,7 +23,8 @@ namespace Fitness.Pages.PersonalTrainer
                 return RedirectToPage("/Login/login");
             }
 
-            var trainerDTOs = await _trainerRepository.GetTrainersAsync();
+            // Haal de lijst met TrainerDTO's op en map naar Trainer model
+            var trainerDTOs = await _trainerService.GetTrainersAsync();
             var trainers = _trainerService.MapToTrainers(trainerDTOs);
             Trainer = trainers.FirstOrDefault(t => t.Name == name);
 

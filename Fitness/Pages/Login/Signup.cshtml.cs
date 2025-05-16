@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using FitnessCore.Services;
-using FitnessCore;
+using FitnessCore.Interfaces;
 
 namespace Fitness.Pages.Login
 {
     public class SignupModel : PageModel
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public SignupModel(UserService userService)
+        public SignupModel(IUserService userService)
         {
             _userService = userService;
         }

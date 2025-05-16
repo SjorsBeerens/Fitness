@@ -1,8 +1,9 @@
 using Microsoft.Data.SqlClient;
+using FitnessDAL.Interfaces;
 
 namespace FitnessDAL.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly string _connectionString;
 

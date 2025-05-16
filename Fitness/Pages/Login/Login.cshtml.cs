@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
-using FitnessCore.Services;
-using FitnessCore;
+using FitnessCore.Interfaces;
 
 namespace Fitness.Pages.Login
 {
@@ -16,9 +15,9 @@ namespace Fitness.Pages.Login
 
         public string ErrorMessage { get; set; }
 
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public LoginModel(UserService userService)
+        public LoginModel(IUserService userService)
         {
             _userService = userService;
         }

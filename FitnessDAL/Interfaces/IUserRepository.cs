@@ -1,3 +1,5 @@
+using System;
+
 namespace FitnessDAL.Interfaces
 {
     public interface IUserRepository

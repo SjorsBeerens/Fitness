@@ -9,6 +9,7 @@
         public required string Experience { get; set; }
         public required string Price { get; set; }
         public double Rating { get; set; }
+        public int RoundedRating => (int)Math.Floor(Rating);
         public List<TrainerSchedule> Schedules { get; set; }
         public List<TrainerBooking> Bookings { get; set; }
 

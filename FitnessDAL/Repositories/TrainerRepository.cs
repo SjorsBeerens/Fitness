@@ -1,9 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using FitnessDAL.DTOs;
+using FitnessDAL.Interfaces;
 
 namespace FitnessCore.Repositories
 {
-    public class TrainerRepository
+    public class TrainerRepository : ITrainerRepository
     {
         private readonly string _connectionString;
 
