@@ -1,0 +1,73 @@
+using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
+using FitnessDAL.DTO;
+
+namespace FitnessDAL.Repositories
+{
+    public class MealRepository
+    {
+        private readonly string _connectionString;
+
+        public MealRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        public List<MealDTO> GetAllMeals()
+        {
+            var meals = new List<MealDTO>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var query = @"SELECT MealID, Name, Calories, Protein, Carbohydrates, Fat FROM Meal";
+                using (var command = new SqlCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        meals.Add(new MealDTO
+                        {
+                            MealID = reader.GetInt32(reader.GetOrdinal("MealID")),
+                            MealName = reader["Name"].ToString() ?? "",
+                            calories = reader.GetInt32(reader.GetOrdinal("Calories")),
+                            protein = Convert.ToDecimal(reader["Protein"]),
+                            carbohydrates = Convert.ToDecimal(reader["Carbohydrates"]),
+                            fat = Convert.ToDecimal(reader["Fat"])
+                        });
+                    }
+                }
+            }
+            return meals;
+        }
+
+        public List<MealDTO> SearchMeals(string searchTerm)
+        {
+            var meals = new List<MealDTO>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var query = @"SELECT MealID, Name, Calories, Protein, Carbohydrates, Fat FROM Meal WHERE Name LIKE @Search";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Search", "%" + searchTerm + "%");
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            meals.Add(new MealDTO
+                            {
+                                MealID = reader.GetInt32(reader.GetOrdinal("MealID")),
+                                MealName = reader["Name"].ToString() ?? "",
+                                calories = reader.GetInt32(reader.GetOrdinal("Calories")),
+                                protein = Convert.ToDecimal(reader["Protein"]),
+                                carbohydrates = Convert.ToDecimal(reader["Carbohydrates"]),
+                                fat = Convert.ToDecimal(reader["Fat"])
+                            });
+                        }
+                    }
+                }
+            }
+            return meals;
+        }
+    }
+}

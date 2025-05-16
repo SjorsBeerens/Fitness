@@ -1,0 +1,139 @@
+﻿@page "/food"
+@model Fitness.Pages.Food.FoodOverviewModel
+@{
+    ViewData["Title"] = "Food OVerview - Fitness";
+    Layout = "_Layout";
+    var mealLog = Model.MealLog;
+}
+  <main class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
+      <div>
+        <h1 class="text-3xl font-bold">Food</h1>
+        <p class="text-gray-600">Track your nutrition and stay on target</p>
+      </div>
+      <div class="mt-4 md:mt-0 flex items-center">
+        <div class="relative mr-4">
+          <input
+            type="date"
+            value="2025-05-16"
+            class="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
+          />
+        </div>
+        <a href="add-food.html" class="bg-black text-white px-4 py-2 rounded-md flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Add Food
+        </a>
+      </div>
+    </div>
+
+    <!-- Nutrition Summary -->
+    <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
+      <h2 class="text-xl font-bold mb-4">Daily Nutrition Summary</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <!-- Calories -->
+        <div class="bg-gray-50 p-4 rounded-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-semibold text-gray-700">Calories</h3>
+            <span class="text-sm text-gray-500">Goal: 2200</span>
+          </div>
+          <div class="flex items-end mb-2">
+            <span class="text-2xl font-bold">@mealLog?.TotalCalories ?? 0</span>
+            <span class="text-sm text-gray-500 ml-1">kcal</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-black h-2.5 rounded-full" style="width: 72%"></div>
+          </div>
+          <div class="flex justify-between mt-1 text-xs text-gray-500">
+            <span>0</span>
+            <span>620 remaining</span>
+          </div>
+        </div>
+
+        <!-- Protein -->
+        <div class="bg-gray-50 p-4 rounded-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-semibold text-gray-700">Protein</h3>
+            <span class="text-sm text-gray-500">Goal: 140g</span>
+          </div>
+          <div class="flex items-end mb-2">
+            <span class="text-2xl font-bold">@mealLog?.TotalProtein ?? 0</span>
+            <span class="text-sm text-gray-500 ml-1">g</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-blue-500 h-2.5 rounded-full" style="width: 70%"></div>
+          </div>
+          <div class="flex justify-between mt-1 text-xs text-gray-500">
+            <span>0</span>
+            <span>42g remaining</span>
+          </div>
+        </div>
+
+        <!-- Carbs -->
+        <div class="bg-gray-50 p-4 rounded-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-semibold text-gray-700">Carbohydrates</h3>
+            <span class="text-sm text-gray-500">Goal: 250g</span>
+          </div>
+          <div class="flex items-end mb-2">
+            <span class="text-2xl font-bold">@mealLog?.TotalCarbohydrates ?? 0</span>
+            <span class="text-sm text-gray-500 ml-1">g</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-green-500 h-2.5 rounded-full" style="width: 74%"></div>
+          </div>
+          <div class="flex justify-between mt-1 text-xs text-gray-500">
+            <span>0</span>
+            <span>65g remaining</span>
+          </div>
+        </div>
+
+        <!-- Fat -->
+        <div class="bg-gray-50 p-4 rounded-md">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="font-semibold text-gray-700">Fat</h3>
+            <span class="text-sm text-gray-500">Goal: 70g</span>
+          </div>
+          <div class="flex items-end mb-2">
+            <span class="text-2xl font-bold">@mealLog?.TotalFat ?? 0</span>
+            <span class="text-sm text-gray-500 ml-1">g</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 74%"></div>
+          </div>
+          <div class="flex justify-between mt-1 text-xs text-gray-500">
+            <span>0</span>
+            <span>18g remaining</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Meals -->
+    <div class="space-y-6">
+      @if (mealLog?.Meals != null)
+      {
+        foreach (var meal in mealLog.Meals)
+        {
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-xl font-bold">@meal.MealName</h2>
+              <span class="text-gray-500">@meal.calories kcal</span>
+            </div>
+            <div class="flex space-x-2 text-xs text-gray-500">
+              <span>P: @meal.protein g</span>
+              <span>C: @meal.carbohydrates g</span>
+              <span>F: @meal.fat g</span>
+            </div>
+          </div>
+        }
+      }
+      else
+      {
+        <div class="bg-white p-6 rounded-lg shadow-sm">
+          <p>No meals logged for this day.</p>
+        </div>
+      }
+    </div>
+  </main>

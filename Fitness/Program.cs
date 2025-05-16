@@ -1,7 +1,6 @@
 using FitnessDAL.Repositories;
 using FitnessCore.Services;
 using FitnessCore.Repositories;
-using FitnessCore.Services;
 using FitnessCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +38,17 @@ builder.Services.AddScoped<TrainerRepository>(provider =>
 
 // Registreer TrainerService
 builder.Services.AddScoped<TrainerService>();
+
+// Registreer MealLogRepository met een connection string
+builder.Services.AddScoped<MealLogRepository>(provider =>
+    new MealLogRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Registreer MealRepository met een connection string
+builder.Services.AddScoped<MealRepository>(provider =>
+    new MealRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Registreer MealService
+builder.Services.AddScoped<MealService>();
 
 var app = builder.Build();
 
