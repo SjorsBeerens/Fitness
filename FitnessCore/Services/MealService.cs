@@ -1,14 +1,15 @@
-using FitnessDAL.Repositories;
+using FitnessCore.Interfaces;
 using FitnessDAL.DTO;
+using FitnessDAL.Interfaces;
 using System.Collections.Generic;
 
 namespace FitnessCore.Services
 {
-    public class MealService
+    public class MealService : IMealService
     {
-        private readonly MealRepository _mealRepository;
+        private readonly IMealRepository _mealRepository;
 
-        public MealService(MealRepository mealRepository)
+        public MealService(IMealRepository mealRepository)
         {
             _mealRepository = mealRepository;
         }

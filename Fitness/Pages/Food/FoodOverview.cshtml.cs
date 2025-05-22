@@ -1,26 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using FitnessDAL.Repositories;
 using FitnessDAL.DTO;
+using FitnessDAL.Interfaces;
 
 namespace Fitness.Pages.Food
 {
     public class FoodOverviewModel : PageModel
     {
-        private readonly MealLogRepository _mealLogRepository;
+        private readonly IMealLogRepository _mealLogRepository;
 
         public MealLogDTO? MealLog { get; set; }
 
-        public FoodOverviewModel(MealLogRepository mealLogRepository)
+        public FoodOverviewModel(IMealLogRepository mealLogRepository)
         {
             _mealLogRepository = mealLogRepository;
         }
 
         public void OnGet()
         {
-            int userId = 1; // Haal de userId op uit authenticatie/session indien mogelijk
-            var date = DateOnly.FromDateTime(DateTime.Today); // Of haal de datum uit querystring/form indien gewenst
-            MealLog = _mealLogRepository.GetMealLogByUserAndDate(userId, date);
+            var userEmail = HttpContext.Session.GetString("UserEmail");
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                Response.Redirect("/Login");
+                return;
+            }
+            var date = DateOnly.FromDateTime(DateTime.Today);
+            MealLog = _mealLogRepository.GetMealLogByUserEmailAndDate(userEmail, date);
         }
     }
 }

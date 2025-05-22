@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using FitnessDAL.DTO;
+using FitnessDAL.Interfaces;
 
 namespace FitnessDAL.Repositories
 {
-    public class MealRepository
+    public class MealRepository : IMealRepository
     {
         private readonly string _connectionString;
 

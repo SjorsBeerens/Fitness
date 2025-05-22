@@ -2,6 +2,8 @@ using FitnessDAL.Repositories;
 using FitnessCore.Services;
 using FitnessCore.Repositories;
 using FitnessCore;
+using FitnessDAL.Interfaces;
+using FitnessCore.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,38 +19,45 @@ builder.Services.AddSession(options =>
 // Voeg Razor Pages ondersteuning toe
 builder.Services.AddRazorPages();
 
-// Registreer UserRepository met een connection string
-builder.Services.AddScoped<UserRepository>(provider =>
+// Registreer IUserRepository met een connection string
+builder.Services.AddScoped<IUserRepository>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
     var connectionString = configuration.GetConnectionString("DefaultConnection");
     return new UserRepository(connectionString);
 });
 
-// Registreer UserService
-builder.Services.AddScoped<UserService>();
+// Registreer IUserService
+builder.Services.AddScoped<IUserService, UserService>();
 
-// Registreer TrainerRepository met een connection string
-builder.Services.AddScoped<TrainerRepository>(provider =>
+// Registreer ITrainerRepository met een connection string
+builder.Services.AddScoped<ITrainerRepository>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
     var connectionString = configuration.GetConnectionString("DefaultConnection");
     return new TrainerRepository(connectionString);
 });
 
-// Registreer TrainerService
-builder.Services.AddScoped<TrainerService>();
+// Registreer ITrainerService
+builder.Services.AddScoped<ITrainerService, TrainerService>();
 
-// Registreer MealLogRepository met een connection string
-builder.Services.AddScoped<MealLogRepository>(provider =>
+// Registreer IMealLogRepository met een connection string
+builder.Services.AddScoped<IMealLogRepository>(provider =>
     new MealLogRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Registreer MealRepository met een connection string
-builder.Services.AddScoped<MealRepository>(provider =>
+// Registreer IMealRepository met een connection string
+builder.Services.AddScoped<IMealRepository>(provider =>
     new MealRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Registreer MealService
-builder.Services.AddScoped<MealService>();
+// Registreer IMealService
+builder.Services.AddScoped<IMealService, MealService>();
+
+// Registreer MealLogService
+builder.Services.AddScoped<MealLogService>(provider =>
+    new MealLogService(
+        provider.GetRequiredService<IMealLogRepository>(),
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
 
 var app = builder.Build();
 
