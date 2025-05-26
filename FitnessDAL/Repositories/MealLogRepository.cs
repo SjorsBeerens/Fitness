@@ -20,24 +20,24 @@ namespace FitnessDAL.Repositories
             {
                 connection.Open();
                 var query = @"
-                    SELECT 
-                        MealLog.MealLogID, 
-                        MealLog.UserID, 
-                        MealLog.Date, 
-                        MealLog.Calories AS TotalCalories, 
-                        MealLog.Protein AS TotalProtein, 
-                        MealLog.Carbohydrates AS TotalCarbohydrates, 
-                        MealLog.Fat AS TotalFat,
-                        Meal.MealID, 
-                        Meal.Name, 
-                        Meal.Calories, 
-                        Meal.Protein, 
-                        Meal.Carbohydrates, 
-                        Meal.Fat
-                    FROM MealLog
-                    LEFT JOIN Meal_MealLog ON MealLog.MealLogID = Meal_MealLog.MealLogID
-                    LEFT JOIN Meal ON Meal_MealLog.MealID = Meal.MealID
-                    WHERE MealLog.UserID = @UserID AND MealLog.Date = @Date";
+            SELECT 
+                MealLog.MealLogID, 
+                MealLog.UserID, 
+                MealLog.Date, 
+                MealLog.Calories AS TotalCalories, 
+                MealLog.Protein AS TotalProtein, 
+                MealLog.Carbohydrates AS TotalCarbohydrates, 
+                MealLog.Fat AS TotalFat,
+                Meal.MealID, 
+                Meal.Name, 
+                Meal.Calories, 
+                Meal.Protein, 
+                Meal.Carbohydrates, 
+                Meal.Fat
+            FROM MealLog
+            LEFT JOIN Meal_MealLog ON MealLog.MealLogID = Meal_MealLog.MealLogID
+            LEFT JOIN Meal ON Meal_MealLog.MealID = Meal.MealID
+            WHERE MealLog.UserID = @UserID AND MealLog.Date = @Date";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@UserID", userId);
@@ -54,10 +54,10 @@ namespace FitnessDAL.Repositories
                                     MealLogID = reader.GetInt32(reader.GetOrdinal("MealLogID")),
                                     UserID = reader.GetInt32(reader.GetOrdinal("UserID")),
                                     Date = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("Date"))),
-                                    TotalCalories = reader.GetInt32(reader.GetOrdinal("TotalCalories")),
-                                    TotalProtein = reader.GetInt32(reader.GetOrdinal("TotalProtein")),
-                                    TotalCarbohydrates = reader.GetInt32(reader.GetOrdinal("TotalCarbohydrates")),
-                                    TotalFat = reader.GetInt32(reader.GetOrdinal("TotalFat")),
+                                    TotalCalories = reader.GetInt32(reader.GetOrdinal("TotalCalories")), // <-- int
+                                    TotalProtein = reader.GetDecimal(reader.GetOrdinal("TotalProtein")),
+                                    TotalCarbohydrates = reader.GetDecimal(reader.GetOrdinal("TotalCarbohydrates")),
+                                    TotalFat = reader.GetDecimal(reader.GetOrdinal("TotalFat")),
                                     Meals = new List<MealDTO>()
                                 };
                             }
@@ -68,9 +68,9 @@ namespace FitnessDAL.Repositories
                                     MealID = reader.GetInt32(reader.GetOrdinal("MealID")),
                                     MealName = reader["Name"].ToString() ?? "",
                                     calories = reader.GetInt32(reader.GetOrdinal("Calories")),
-                                    protein = reader.GetInt32(reader.GetOrdinal("Protein")),
-                                    carbohydrates = reader.GetInt32(reader.GetOrdinal("Carbohydrates")),
-                                    fat = reader.GetInt32(reader.GetOrdinal("Fat"))
+                                    protein = reader.GetDecimal(reader.GetOrdinal("Protein")),
+                                    carbohydrates = reader.GetDecimal(reader.GetOrdinal("Carbohydrates")),
+                                    fat = reader.GetDecimal(reader.GetOrdinal("Fat"))
                                 });
                             }
                         }
@@ -79,6 +79,8 @@ namespace FitnessDAL.Repositories
             }
             return mealLog;
         }
+
+
 
         public MealLogDTO? GetMealLogByUserEmailAndDate(string email, DateOnly date)
         {
