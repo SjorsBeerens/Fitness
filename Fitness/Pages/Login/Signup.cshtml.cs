@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using FitnessCore.Services;
@@ -15,15 +16,24 @@ namespace Fitness.Pages.Login
         }
 
         [BindProperty]
+        [Required(ErrorMessage = "Full name is required.")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Full name must be between 2 and 50 characters.")]
         public string FullName { get; set; }
 
         [BindProperty]
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
         public string Email { get; set; }
 
         [BindProperty]
+        [Required(ErrorMessage = "Password is required.")]
+        [MinLength(8, ErrorMessage = "Password must be at least 8 characters.")]
+        [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "Password must be alphanumeric.")]
         public string Password { get; set; }
 
         [BindProperty]
+        [Required(ErrorMessage = "Please confirm your password.")]
+        [Compare("Password", ErrorMessage = "Passwords do not match.")]
         public string ConfirmPassword { get; set; }
 
         public IActionResult OnPost()

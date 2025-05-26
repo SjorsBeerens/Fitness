@@ -29,6 +29,15 @@
 
         <form method="post">
             @Html.AntiForgeryToken()
+            @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Count > 0)
+            {
+                <div class="text-red-600 text-sm mb-4 font-semibold">
+                    De ingevulde velden zijn niet correct. Controleer het volgende:<br />
+                    - Vul een geldig e-mailadres in.<br />
+                    - Wachtwoord: minimaal 8 tekens, alleen letters en cijfers toegestaan.<br />
+                </div>
+            }
+            <div asp-validation-summary="All" class="text-red-500 text-sm mb-4"></div>
             <div class="mb-6">
                 <label for="email" class="block text-gray-700 mb-2">Email address</label>
                 <div class="relative">
@@ -43,6 +52,7 @@
                            class="pl-10 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
                            placeholder="Enter your email"
                            value="@Model.Email" />
+                    <span asp-validation-for="Email" class="text-red-500 text-sm mt-2"></span>
                 </div>
             </div>
 
@@ -59,6 +69,7 @@
                            type="password"
                            class="pl-10 w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
                            placeholder="Enter your password" />
+                    <span asp-validation-for="Password" class="text-red-500 text-sm mt-2"></span>
                 </div>
             </div>
 
@@ -85,5 +96,9 @@
             </p>
         </div>
     </div>
+
+    @section Scripts {
+        @await Html.PartialAsync("~/Pages/Shared/_ValidationScriptsPartial.cshtml")
+    }
 </body>
 </html>

@@ -21,6 +21,18 @@
 
         <form method="post">
             @Html.AntiForgeryToken()
+            @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Count > 0)
+            {
+                <div class="text-red-600 text-sm mb-4 font-semibold">
+                    De ingevulde velden zijn niet correct. Controleer het volgende:<br />
+                    - Gewicht: vul een waarde in tussen 40 en 250 kg.<br />
+                    - Lengte: vul een waarde in tussen 120 en 220 cm.<br />
+                    - Leeftijd: vul een waarde in tussen 16 en 120 jaar.<br />
+                    - Geslacht: maak een keuze.<br />
+                    - Activiteitsniveau: maak een keuze.<br />
+                </div>
+            }
+            <div asp-validation-summary="All" class="text-red-500 text-sm mb-4"></div>
             <div class="mb-6">
                 <label for="weight" class="block text-gray-700 mb-2">Weight (kg)</label>
                 <input id="weight"
@@ -29,6 +41,7 @@
                        step="0.1"
                        class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
                        placeholder="Enter your weight" />
+                <span asp-validation-for="Weight" class="text-red-500 text-sm mt-2"></span>
             </div>
 
             <div class="mb-6">
@@ -39,6 +52,7 @@
                        step="0.1"
                        class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
                        placeholder="Enter your height" />
+                <span asp-validation-for="Height" class="text-red-500 text-sm mt-2"></span>
             </div>
 
             <div class="mb-6">
@@ -48,6 +62,7 @@
                        type="number"
                        class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
                        placeholder="Enter your age" />
+                <span asp-validation-for="Age" class="text-red-500 text-sm mt-2"></span>
             </div>
 
             <div class="mb-6">
@@ -60,6 +75,7 @@
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                 </select>
+                <span asp-validation-for="Gender" class="text-red-500 text-sm mt-2"></span>
             </div>
 
             <div class="mb-6">
@@ -74,6 +90,7 @@
                     <option value="1,725">Heavy exercise</option>
                     <option value="1,9">Very heavy exercise</option>
                 </select>
+                <span asp-validation-for="ActivityLevel" class="text-red-500 text-sm mt-2"></span>
             </div>
 
             <button type="submit"
@@ -82,5 +99,9 @@
             </button>
         </form>
     </div>
+
+    @section Scripts {
+        @await Html.PartialAsync("~/Pages/Shared/_ValidationScriptsPartial.cshtml")
+    }
 </body>
 </html>

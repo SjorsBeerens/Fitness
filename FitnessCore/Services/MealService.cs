@@ -1,5 +1,4 @@
 using FitnessCore.Interfaces;
-using FitnessCore.Models;
 using FitnessDAL.DTO;
 using FitnessDAL.Interfaces;
 using System.Collections.Generic;
