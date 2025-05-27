@@ -1,17 +1,17 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Data.SqlClient;
+using FitnessCore.Interfaces;
 
 namespace Fitness.Pages.Login
 {
     public class AdditionalInfoModel : PageModel
     {
-        private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
 
-        public AdditionalInfoModel(IConfiguration configuration)
+        public AdditionalInfoModel(IUserService userService)
         {
-            _configuration = configuration;
+            _userService = userService;
         }
 
         [BindProperty]
@@ -50,32 +50,8 @@ namespace Fitness.Pages.Login
                 return RedirectToPage("Signup");
             }
 
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using (var connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                var query = @"
-            UPDATE [User]
-            SET Weight = @Weight,
-                Height = @Height,
-                Age = @Age,
-                Gender = @Gender,
-                ActivityLevel = @ActivityLevel
-            WHERE UserID = @UserID";
-                using (var command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Weight", Weight);
-                    command.Parameters.AddWithValue("@Height", Height);
-                    command.Parameters.AddWithValue("@Age", Age);
-                    command.Parameters.AddWithValue("@Gender", Gender);
-                    command.Parameters.AddWithValue("@ActivityLevel", ActivityLevel);
-                    command.Parameters.AddWithValue("@UserID", userId);
+            _userService.UpdateUserAdditionalInfo(userId, Weight, Height, Age, Gender, ActivityLevel);
 
-                    command.ExecuteNonQuery();
-                }
-            }
-
-            // Gebruik RedirectToPage om naar de loginpagina te gaan
             return RedirectToPage("/Login/Login");
         }
     }

@@ -65,5 +65,32 @@ namespace FitnessDAL.Repositories
             }
             return (null, null);
         }
+        public void UpdateUserAdditionalInfo(int userId, decimal weight, int height, int age, string gender, decimal activityLevel)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var query = @"
+            UPDATE [User]
+            SET Weight = @Weight,
+                Height = @Height,
+                Age = @Age,
+                Gender = @Gender,
+                ActivityLevel = @ActivityLevel
+            WHERE UserID = @UserID";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Weight", weight);
+                    command.Parameters.AddWithValue("@Height", height);
+                    command.Parameters.AddWithValue("@Age", age);
+                    command.Parameters.AddWithValue("@Gender", gender);
+                    command.Parameters.AddWithValue("@ActivityLevel", activityLevel);
+                    command.Parameters.AddWithValue("@UserID", userId);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }
