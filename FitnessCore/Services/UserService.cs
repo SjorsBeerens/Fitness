@@ -19,7 +19,6 @@ namespace FitnessCore
             _userRepository.UpdateUserAdditionalInfo(userId, weight, height, age, gender, activityLevel);
         }
 
-
         public bool IsEmailInUse(string email)
         {
             return _userRepository.IsEmailInUse(email);

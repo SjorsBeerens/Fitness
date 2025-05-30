@@ -7,7 +7,7 @@ namespace FitnessCore.Interfaces
 {
     public interface ITrainerService
     {
-        Task<List<TrainerDTO>> GetTrainersAsync();
+        Task<List<Trainer>> GetTrainersAsync();
         List<Trainer> MapToTrainers(List<TrainerDTO> dtos);
     }
 }

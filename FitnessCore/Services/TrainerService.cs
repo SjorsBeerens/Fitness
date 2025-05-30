@@ -16,26 +16,32 @@ namespace FitnessCore.Services
             _trainerRepository = trainerRepository;
         }
 
-        public Task<List<TrainerDTO>> GetTrainersAsync() => _trainerRepository.GetTrainersAsync();
+        public async Task<List<Trainer>> GetTrainersAsync()
+        {
+            var dtos = await _trainerRepository.GetTrainersAsync();
+            return MapToTrainers(dtos);
+        }
 
         public List<Trainer> MapToTrainers(List<TrainerDTO> dtos)
         {
             var trainers = new List<Trainer>();
             foreach (var dto in dtos)
             {
+                if (dto == null) continue;
                 trainers.Add(new Trainer
                 {
                     TrainerID = dto.TrainerID,
-                    Name = dto.Name ?? "",
-                    Specialty = dto.Specialty ?? "",
-                    Experience = dto.Experience ?? "",
-                    Price = dto.Price ?? "",
-                    Rating = dto.Rating
+                    Name = dto.Name ?? string.Empty,
+                    Specialty = dto.Specialty ?? string.Empty,
+                    Experience = dto.Experience ?? string.Empty,
+                    Price = dto.Price ?? string.Empty,
+                    Rating = dto.Rating,
+                    Schedules = new List<TrainerSchedule>(),
+                    Bookings = new List<TrainerBooking>()
                 });
             }
             return trainers;
         }
-
         public int GetRoundedRating(double rating)
         {
             return (int)Math.Floor(rating);
