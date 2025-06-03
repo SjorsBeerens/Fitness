@@ -26,8 +26,7 @@ namespace Fitness.Pages.PersonalTrainer
                 return RedirectToPage("/Login/login");
             }
 
-            var trainerDTOs = await _trainerService.GetTrainersAsync();
-            Trainers = _trainerService.MapToTrainers(trainerDTOs);
+            Trainers = await _trainerService.GetTrainersAsync();
 
             return Page();
         }

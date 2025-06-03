@@ -1,10 +1,8 @@
 using FitnessCore.Interfaces;
 using FitnessDAL.Interfaces;
-using FitnessDAL.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
 
-namespace FitnessCore
+namespace FitnessCore.Services
 {
     public class UserService : IUserService
     {
@@ -13,6 +11,10 @@ namespace FitnessCore
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
+        }
+        public void UpdateUserAdditionalInfo(int userId, decimal weight, int height, int age, string gender, decimal activityLevel)
+        {
+            _userRepository.UpdateUserAdditionalInfo(userId, weight, height, age, gender, activityLevel);
         }
 
         public bool IsEmailInUse(string email)

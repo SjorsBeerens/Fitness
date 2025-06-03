@@ -48,6 +48,7 @@ namespace Fitness.Pages.Food
             {
                 return RedirectToPage("/Login");
             }
+
             var date = DateOnly.FromDateTime(DateTime.Today);
 
             int mealLogId;
@@ -63,7 +64,7 @@ namespace Fitness.Pages.Food
 
             _mealLogRepository.AddMealToMealLog(mealLogId, mealId);
 
-            return RedirectToPage("/Food");
+            return RedirectToPage("/Food/FoodOverview");
         }
     }
 }

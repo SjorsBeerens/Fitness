@@ -23,9 +23,7 @@ namespace Fitness.Pages.PersonalTrainer
                 return RedirectToPage("/Login/login");
             }
 
-            // Haal de lijst met TrainerDTO's op en map naar Trainer model
-            var trainerDTOs = await _trainerService.GetTrainersAsync();
-            var trainers = _trainerService.MapToTrainers(trainerDTOs);
+            var trainers = await _trainerService.GetTrainersAsync();
             Trainer = trainers.FirstOrDefault(t => t.Name == name);
 
             return Page();

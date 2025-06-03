@@ -1,7 +1,7 @@
 ﻿@page "/food"
 @model Fitness.Pages.Food.FoodOverviewModel
 @{
-    ViewData["Title"] = "Food OVerview - Fitness";
+    ViewData["Title"] = "Food Overview - Fitness";
     Layout = "_Layout";
     var mealLog = Model.MealLog;
 }
@@ -15,7 +15,7 @@
         <div class="relative mr-4">
           <input
             type="date"
-            value="2025-05-16"
+            value="@DateTime.Today.ToString("yyyy-MM-dd")"
             class="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
           />
         </div>

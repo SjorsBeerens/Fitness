@@ -29,6 +29,17 @@
 
         <form method="post">
             @Html.AntiForgeryToken()
+            @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Count > 0)
+            {
+                <div class="text-red-600 text-sm mb-4 font-semibold">
+                    De ingevulde velden zijn niet correct. Controleer het volgende:<br />
+                    - Vul je volledige naam in (2-50 tekens).<br />
+                    - Vul een geldig e-mailadres in.<br />
+                    - Wachtwoord: minimaal 8 cijfers/letters, alleen letters en cijfers toegestaan.<br />
+                    - Bevestig je wachtwoord (moet gelijk zijn aan het wachtwoord).<br />
+                </div>
+            }
+            <div asp-validation-summary="All" class="text-red-500 text-sm mb-4"></div>
             <div class="mb-6">
                 <label for="full-name" class="block text-gray-700 mb-2">Full Name</label>
                 <input id="full-name"
@@ -36,6 +47,7 @@
                        type="text"
                        class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
                        placeholder="Enter your full name" required />
+                <span asp-validation-for="FullName" class="text-red-500 text-sm mt-2"></span>
             </div>
 
             <div class="mb-6">
@@ -45,14 +57,8 @@
                        type="email"
                        class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
                        placeholder="Enter your email" required />
-                @if (ViewData.ModelState["Email"]?.Errors.Count > 0)
-                {
-                    <p class="text-red-500 text-sm mt-2">
-                        @ViewData.ModelState["Email"].Errors[0].ErrorMessage
-                    </p>
-                }
+                <span asp-validation-for="Email" class="text-red-500 text-sm mt-2"></span>
             </div>
-
 
             <div class="mb-6">
                 <label for="password" class="block text-gray-700 mb-2">Password</label>
@@ -62,6 +68,7 @@
                            type="password"
                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
                            placeholder="Create a password" required />
+                    <span asp-validation-for="Password" class="text-red-500 text-sm mt-2"></span>
                 </div>
             </div>
 
@@ -73,12 +80,7 @@
                            type="password"
                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
                            placeholder="Confirm your password" required />
-                    @if (ViewData.ModelState["ConfirmPassword"]?.Errors.Count > 0)
-                    {
-                        <p class="text-red-500 text-sm mt-2">
-                            @ViewData.ModelState["ConfirmPassword"].Errors[0].ErrorMessage
-                        </p>
-                    }
+                    <span asp-validation-for="ConfirmPassword" class="text-red-500 text-sm mt-2"></span>
                 </div>
             </div>
 
@@ -104,5 +106,9 @@
             </div>
         </form>
     </div>
+
+    @section Scripts {
+        @await Html.PartialAsync("~/Pages/Shared/_ValidationScriptsPartial.cshtml")
+    }
 </body>
 </html>
