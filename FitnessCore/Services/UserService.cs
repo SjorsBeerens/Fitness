@@ -1,10 +1,8 @@
 using FitnessCore.Interfaces;
 using FitnessDAL.Interfaces;
-using FitnessDAL.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
 
-namespace FitnessCore
+namespace FitnessCore.Services
 {
     public class UserService : IUserService
     {

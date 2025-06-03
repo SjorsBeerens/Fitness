@@ -1,19 +1,28 @@
-﻿namespace FitnessCore.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FitnessCore.Models
 {
     public class MealLog
     {
         public int MealLogID { get; set; }
         public int UserID { get; set; }
         public DateOnly Date { get; set; }
-        public int TotalCalories { get; set; }
-        public int TotalProtein { get; set; }
-        public int TotalCarbohydrates { get; set; }
-        public int TotalFat { get; set; }
-        public List<Meal> Meals { get; set; }
+        public List<Meal> Meals { get; set; } = new List<Meal>();
 
-        public MealLog()
+        // Calculated totals
+        public int TotalCalories { get; private set; }
+        public decimal TotalProtein { get; private set; }
+        public decimal TotalCarbohydrates { get; private set; }
+        public decimal TotalFat { get; private set; }
+
+        public void CalculateTotals()
         {
-            Meals = new List<Meal>();
+            TotalCalories = Meals.Sum(m => m.Calories);
+            TotalProtein = Meals.Sum(m => m.Protein);
+            TotalCarbohydrates = Meals.Sum(m => m.Carbohydrates);
+            TotalFat = Meals.Sum(m => m.Fat);
         }
     }
 }
