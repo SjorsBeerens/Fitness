@@ -28,17 +28,7 @@ namespace FitnessCore.Services
             foreach (var dto in dtos)
             {
                 if (dto == null) continue;
-                trainers.Add(new Trainer
-                {
-                    TrainerID = dto.TrainerID,
-                    Name = dto.Name ?? string.Empty,
-                    Specialty = dto.Specialty ?? string.Empty,
-                    Experience = dto.Experience ?? string.Empty,
-                    Price = dto.Price ?? string.Empty,
-                    Rating = dto.Rating,
-                    Schedules = new List<TrainerSchedule>(),
-                    Bookings = new List<TrainerBooking>()
-                });
+                trainers.Add(dto.MapToTrainer());               ;
             }
             return trainers;
         }
