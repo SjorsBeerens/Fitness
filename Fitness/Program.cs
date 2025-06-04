@@ -52,12 +52,8 @@ builder.Services.AddScoped<IMealRepository>(provider =>
 // Registreer IMealService
 builder.Services.AddScoped<IMealService, MealService>();
 
-// Registreer MealLogService
-builder.Services.AddScoped<MealLogService>(provider =>
-    new MealLogService(
-        provider.GetRequiredService<IMealLogRepository>(),
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
+// Registreer MealLogService 
+builder.Services.AddScoped<MealLogService>();
 
 var app = builder.Build();
 

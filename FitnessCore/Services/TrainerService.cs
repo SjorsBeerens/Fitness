@@ -28,7 +28,7 @@ namespace FitnessCore.Services
             foreach (var dto in dtos)
             {
                 if (dto == null) continue;
-                trainers.Add(dto.MapToTrainer());               ;
+                trainers.Add(dto.MapToTrainer());
             }
             return trainers;
         }
