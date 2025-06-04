@@ -4,12 +4,12 @@ using FitnessCore.Services;
 using FitnessDAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-public class UserServiceTests
+public class UserServiceTest
 {
     private readonly UserService _userService;
     private readonly Mock<IUserRepository> _userRepoMock = new();
 
-    public UserServiceTests()
+    public UserServiceTest()
     {
         _userService = new UserService(_userRepoMock.Object);
     }
