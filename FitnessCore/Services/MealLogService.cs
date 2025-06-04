@@ -1,6 +1,4 @@
 using FitnessDAL.Interfaces;
-using FitnessDAL.DTO;
-using System;
 
 namespace FitnessCore.Services
 {

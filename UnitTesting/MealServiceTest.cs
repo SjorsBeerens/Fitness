@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using FitnessCore.Services;
+﻿using FitnessCore.Services;
 using FitnessDAL.DTO;
 using FitnessDAL.Interfaces;
 using Moq;
-using Xunit;
 
 namespace UnitTesting
 {

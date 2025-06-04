@@ -1,9 +1,7 @@
-﻿using System;
-using FitnessCore.Services;
+﻿using FitnessCore.Services;
 using FitnessDAL.Interfaces;
 using FitnessDAL.DTO;
 using Moq;
-using Xunit;
 
 namespace UnitTesting
 {

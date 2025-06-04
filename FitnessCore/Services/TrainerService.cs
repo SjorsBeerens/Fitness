@@ -2,8 +2,6 @@ using FitnessCore.Models;
 using FitnessCore.Interfaces;
 using FitnessDAL.DTOs;
 using FitnessDAL.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FitnessCore.Services
 {
