@@ -11,6 +11,23 @@ namespace FitnessDAL.Repositories
         {
             _connectionString = connectionString;
         }
+        public int? GetUserIdByEmail(string email)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var query = "SELECT UserID FROM [User] WHERE Email = @Email";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+                    var result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                        return Convert.ToInt32(result);
+                }
+            }
+            return null;
+        }
+
 
         public bool IsEmailInUse(string email)
         {

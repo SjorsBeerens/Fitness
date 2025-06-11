@@ -2,8 +2,6 @@ using FitnessCore.Models;
 using FitnessCore.Interfaces;
 using FitnessDAL.DTOs;
 using FitnessDAL.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FitnessCore.Services
 {
@@ -28,7 +26,7 @@ namespace FitnessCore.Services
             foreach (var dto in dtos)
             {
                 if (dto == null) continue;
-                trainers.Add(dto.MapToTrainer());               ;
+                trainers.Add(dto.MapToTrainer());
             }
             return trainers;
         }

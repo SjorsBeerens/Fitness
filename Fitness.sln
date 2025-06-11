@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessCore", "FitnessCore\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessDAL", "FitnessDAL\FitnessDAL.csproj", "{83801B0A-D80F-4862-B3CB-2E6649319DD5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{13C62312-045B-43B3-81DE-0D88D2747C84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{83801B0A-D80F-4862-B3CB-2E6649319DD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83801B0A-D80F-4862-B3CB-2E6649319DD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83801B0A-D80F-4862-B3CB-2E6649319DD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C62312-045B-43B3-81DE-0D88D2747C84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C62312-045B-43B3-81DE-0D88D2747C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C62312-045B-43B3-81DE-0D88D2747C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C62312-045B-43B3-81DE-0D88D2747C84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
