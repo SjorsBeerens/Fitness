@@ -3,7 +3,6 @@ using FitnessCore.Services;
 using FitnessCore.Repositories;
 using FitnessCore;
 using FitnessDAL.Interfaces;
-using FitnessCore.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
