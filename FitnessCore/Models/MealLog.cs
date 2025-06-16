@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FitnessCore.Models
 {
@@ -10,19 +9,9 @@ namespace FitnessCore.Models
         public int UserID { get; set; }
         public DateOnly Date { get; set; }
         public List<Meal> Meals { get; set; } = new List<Meal>();
-
-        // Calculated totals
-        public int TotalCalories { get; private set; }
-        public decimal TotalProtein { get; private set; }
-        public decimal TotalCarbohydrates { get; private set; }
-        public decimal TotalFat { get; private set; }
-
-        public void CalculateTotals()
-        {
-            TotalCalories = Meals.Sum(m => m.Calories);
-            TotalProtein = Meals.Sum(m => m.Protein);
-            TotalCarbohydrates = Meals.Sum(m => m.Carbohydrates);
-            TotalFat = Meals.Sum(m => m.Fat);
-        }
+        public int TotalCalories { get; set; }
+        public decimal TotalProtein { get; set; }
+        public decimal TotalCarbohydrates { get; set; }
+        public decimal TotalFat { get; set; }
     }
 }

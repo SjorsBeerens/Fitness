@@ -1,4 +1,6 @@
+using FitnessCore.Models;
 using FitnessDAL.Interfaces;
+using System.Linq;
 
 namespace FitnessCore.Services
 {
@@ -24,6 +26,14 @@ namespace FitnessCore.Services
                 throw new Exception("Gebruiker niet gevonden.");
 
             return _mealLogRepository.CreateMealLog(userId.Value, date);
+        }
+
+        public void CalculateTotals(MealLog mealLog)
+        {
+            mealLog.TotalCalories = mealLog.Meals.Sum(m => m.Calories);
+            mealLog.TotalProtein = mealLog.Meals.Sum(m => m.Protein);
+            mealLog.TotalCarbohydrates = mealLog.Meals.Sum(m => m.Carbohydrates);
+            mealLog.TotalFat = mealLog.Meals.Sum(m => m.Fat);
         }
     }
 }
