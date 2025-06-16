@@ -27,8 +27,8 @@ builder.Services.AddScoped<IUserRepository>(provider =>
     return new UserRepository(connectionString);
 });
 
-// Registreer IUserService
-builder.Services.AddScoped<IUserService, UserService>();
+// Registreer UserService direct
+builder.Services.AddScoped<UserService>();
 
 // Registreer ITrainerRepository met een connection string
 builder.Services.AddScoped<ITrainerRepository>(provider =>
@@ -38,8 +38,8 @@ builder.Services.AddScoped<ITrainerRepository>(provider =>
     return new TrainerRepository(connectionString);
 });
 
-// Registreer ITrainerService
-builder.Services.AddScoped<ITrainerService, TrainerService>();
+// Registreer TrainerService direct
+builder.Services.AddScoped<TrainerService>();
 
 // Registreer IMealLogRepository met een connection string
 builder.Services.AddScoped<IMealLogRepository>(provider =>
@@ -49,8 +49,8 @@ builder.Services.AddScoped<IMealLogRepository>(provider =>
 builder.Services.AddScoped<IMealRepository>(provider =>
     new MealRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Registreer IMealService
-builder.Services.AddScoped<IMealService, MealService>();
+// Registreer MealService direct
+builder.Services.AddScoped<MealService>();
 
 // Registreer MealLogService 
 builder.Services.AddScoped<MealLogService>();

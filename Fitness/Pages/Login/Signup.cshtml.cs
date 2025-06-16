@@ -2,15 +2,14 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using FitnessCore.Services;
-using FitnessCore.Interfaces;
 
 namespace Fitness.Pages.Login
 {
     public class SignupModel : PageModel
     {
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public SignupModel(IUserService userService)
+        public SignupModel(UserService userService)
         {
             _userService = userService;
         }

@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using FitnessCore.Models;
-using FitnessCore.Interfaces;
+using FitnessCore.Services;
 
 namespace Fitness.Pages.PersonalTrainer
 {
     public class TrainerProfileModel : PageModel
     {
-        private readonly ITrainerService _trainerService;
+        private readonly TrainerService _trainerService;
 
-        public TrainerProfileModel(ITrainerService trainerService)
+        public TrainerProfileModel(TrainerService trainerService)
         {
             _trainerService = trainerService;
         }

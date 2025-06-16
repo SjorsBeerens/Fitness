@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
-using FitnessCore.Interfaces;
+using FitnessCore.Services;
 
 namespace Fitness.Pages.Login
 {
@@ -21,9 +21,9 @@ namespace Fitness.Pages.Login
 
         public string ErrorMessage { get; set; }
 
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public LoginModel(IUserService userService)
+        public LoginModel(UserService userService)
         {
             _userService = userService;
         }

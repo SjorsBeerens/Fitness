@@ -1,15 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using FitnessCore.Interfaces;
+using FitnessCore.Services;
 
 namespace Fitness.Pages.Login
 {
     public class AdditionalInfoModel : PageModel
     {
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public AdditionalInfoModel(IUserService userService)
+        public AdditionalInfoModel(UserService userService)
         {
             _userService = userService;
         }

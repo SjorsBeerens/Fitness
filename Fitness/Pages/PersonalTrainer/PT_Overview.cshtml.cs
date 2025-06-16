@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using FitnessCore.Interfaces;
+using FitnessCore.Services;
 using FitnessCore.Models;
 using FitnessDAL.DTOs;
 using System.Collections.Generic;
@@ -10,9 +10,9 @@ namespace Fitness.Pages.PersonalTrainer
 {
     public class PT_OverviewModel : PageModel
     {
-        private readonly ITrainerService _trainerService;
+        private readonly TrainerService _trainerService;
 
-        public PT_OverviewModel(ITrainerService trainerService)
+        public PT_OverviewModel(TrainerService trainerService)
         {
             _trainerService = trainerService;
         }

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using FitnessDAL.DTO;
-using FitnessCore.Interfaces;
 using FitnessDAL.Interfaces;
 using FitnessCore.Services;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ namespace Fitness.Pages.Food
 {
     public class AddFoodModel : PageModel
     {
-        private readonly IMealService _mealService;
+        private readonly MealService _mealService;
         private readonly IMealLogRepository _mealLogRepository;
         private readonly MealLogService _mealLogService;
 
@@ -20,7 +19,7 @@ namespace Fitness.Pages.Food
         public string SearchTerm { get; set; }
 
         public AddFoodModel(
-            IMealService mealService,
+            MealService mealService,
             IMealLogRepository mealLogRepository,
             MealLogService mealLogService)
         {
