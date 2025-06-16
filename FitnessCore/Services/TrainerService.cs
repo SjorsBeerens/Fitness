@@ -1,11 +1,10 @@
 using FitnessCore.Models;
-using FitnessCore.Interfaces;
 using FitnessDAL.DTOs;
 using FitnessDAL.Interfaces;
 
 namespace FitnessCore.Services
 {
-    public class TrainerService : ITrainerService
+    public class TrainerService
     {
         private readonly ITrainerRepository _trainerRepository;
 

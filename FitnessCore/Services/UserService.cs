@@ -1,10 +1,9 @@
-using FitnessCore.Interfaces;
 using FitnessDAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace FitnessCore.Services
 {
-    public class UserService : IUserService
+    public class UserService
     {
         private readonly IUserRepository _userRepository;
 

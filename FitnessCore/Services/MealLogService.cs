@@ -1,5 +1,4 @@
 using FitnessDAL.Interfaces;
-using FitnessCore.Interfaces;
 
 namespace FitnessCore.Services
 {
